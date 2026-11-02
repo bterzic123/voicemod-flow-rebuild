@@ -1,0 +1,1207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Growth Audit — Voicemod</title>
+<link rel="icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Archivo:ital,wght@0,600;0,800;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only dark;
+  /* ---- Voicemod, extracted from their live iOS screens ---- */
+  --vm-bg:#050807; --vm-surf:#191D1E; --vm-surf2:#262B2D; --vm-line:#2C3234;
+  --vm-ink:#FFFFFF; --vm-txt:#C9CFCE; --vm-muted:#8A9391;
+  --vm-cyan:#01FFF4; --vm-cyan-t:#01FFF4; --vm-on-cyan:#03110F;
+  --vm-lime1:#E0FD07; --vm-lime2:#5FF31C; --vm-badge:#E5F826;
+  --vm-lime:linear-gradient(90deg,#E0FD07,#A7F716 50%,#5FF31C);
+  --r-ctl:6px; --r-card:12px; --r-media:22px;
+  /* ---- the report shell, in Voicemod's own palette ---- */
+  --bg:#050807; --bg2:#0D1110; --surf:#111615;
+  --hair:rgba(255,255,255,.09); --hair2:rgba(255,255,255,.16);
+  --ink:#F3F6F5; --ink2:#B6BEBC; --ink3:#7D8785;
+  --accent:#01FFF4; --accent-lift:#01FFF4; --on-accent:#03110F;
+  --panel:#FFFFFF; --panel-ink:#111514; --panel-muted:#5F6866; --panel-line:#E7ECEB;
+  --accent-ink:#007F79;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 20px}}
+
+/* ============ top bar ============ */
+.nav{position:sticky;top:0;z-index:70;background:rgba(5,8,7,.86);backdrop-filter:blur(18px) saturate(160%);
+  border-bottom:1px solid var(--hair)}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;gap:18px}
+@media(max-width:700px){.nav-in{padding:0 20px;gap:12px}}
+.nav-brand{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.nav-brand .mk{width:26px;height:26px;flex:none;display:block;border-radius:7px;overflow:hidden}
+.nav-brand .mk img{width:26px;height:26px;display:block}
+.nav-brand span{color:var(--ink2);font-weight:500}
+.nav-brand b{color:var(--ink);font-weight:600}
+.nav-links{margin-left:auto;display:flex;gap:2px;align-items:center}
+.nav-links button{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink3);transition:.16s}
+.nav-links button:hover{color:var(--ink)}
+.nav-links button.on{color:var(--ink);background:#1B2021;box-shadow:0 1px 0 rgba(255,255,255,.05) inset}
+@media(max-width:640px){.nav-brand span{display:none}}
+
+.view{display:none}
+.view.on{display:block}
+
+/* ============ hero ============ */
+.hero{padding:104px 0 0;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-340px;left:50%;transform:translateX(-50%);
+  width:1100px;height:640px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(1,255,244,.16),transparent 72%)}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(40% 50% at 8% 20%,rgba(224,253,7,.12),transparent 70%),
+   radial-gradient(38% 45% at 92% 18%,rgba(95,243,28,.12),transparent 70%)}
+.hero>*{position:relative;z-index:1}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lift);margin-bottom:26px}
+.hero h1{font-size:76px;line-height:.98;font-weight:800;letter-spacing:-.045em;margin:0 0 24px}
+@media(max-width:820px){.hero h1{font-size:50px}.hero{padding-top:70px}}
+.hero .lede{font-size:20px;line-height:1.5;font-weight:400;color:var(--ink2);max-width:600px;margin:0 auto;letter-spacing:-.012em}
+@media(max-width:820px){.hero .lede{font-size:17px}}
+.hero .meta{margin-top:30px;font-size:12.5px;color:var(--ink3);letter-spacing:.02em}
+.hero .meta b{color:var(--ink2);font-weight:600}
+
+.stats{display:flex;justify-content:center;gap:0;margin:70px auto 0;max-width:760px;
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 14px;text-align:center;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.stat span{display:block;font-size:11.5px;color:var(--ink3);margin-top:5px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:19px}.stat{padding:18px 8px}}
+
+.fb{max-width:760px;margin:0 auto;padding:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:20px;padding-top:24px}}
+.fb-k{grid-column:1/-1;font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px;align-items:flex-start}
+.fb-i .tick{width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:rgba(1,255,244,.14);
+  display:grid;place-items:center}
+.fb-i .tick svg{width:10px;height:10px;stroke:var(--accent-lift);stroke-width:3;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.fb-i p{font-size:14px;line-height:1.55;color:var(--ink2);margin:0}
+.fb-i p b{color:var(--ink);font-weight:700}
+
+.sec{padding:96px 0}
+.sec-k{font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px}
+.sec h2{font-size:38px;line-height:1.14;font-weight:700;letter-spacing:-.035em;margin:0 0 20px;max-width:680px}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:64px 0}}
+.sec p.body{font-size:17px;line-height:1.66;color:var(--ink2);max-width:640px;margin:0 0 18px;letter-spacing:-.008em}
+.sec p.body b{color:var(--ink);font-weight:600}
+.rule{height:1px;background:var(--hair);margin:0}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;max-width:820px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.note{background:var(--surf);border:1px solid var(--hair);border-radius:16px;padding:24px 26px}
+.note h4{font-size:15px;font-weight:700;letter-spacing:-.015em;margin:0 0 8px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink2);margin:0}
+
+.ideas{display:flex;flex-direction:column;gap:0;margin-top:14px;border-top:1px solid var(--hair)}
+.idea{display:grid;grid-template-columns:52px 1fr 180px;gap:26px;align-items:start;
+  padding:30px 4px;border-bottom:1px solid var(--hair);text-align:left;width:100%;transition:.18s}
+.idea:hover{background:rgba(255,255,255,.03)}
+@media(max-width:780px){.idea{grid-template-columns:38px 1fr;gap:16px}}
+.idea .no{font-size:13px;font-weight:700;color:var(--ink3);padding-top:4px;letter-spacing:.02em}
+.idea h3{font-size:21px;line-height:1.25;font-weight:700;letter-spacing:-.024em;margin:0 0 7px}
+@media(max-width:820px){.idea h3{font-size:18px}}
+.idea p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0;max-width:540px}
+.idea .out{text-align:right;padding-top:3px}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left;padding-top:12px}}
+.idea .out b{display:block;font-size:19px;font-weight:700;letter-spacing:-.025em;color:var(--accent-lift);white-space:nowrap}
+.idea .out span{display:block;font-size:10.5px;color:var(--ink3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.idea .seeit{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12.5px;
+  font-weight:600;color:var(--accent-lift)}
+.idea .seeit svg{width:12px;height:12px}
+
+.band{background:var(--surf);border:1px solid var(--hair);border-radius:28px;padding:40px 44px;margin-top:44px;
+  display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+@media(max-width:700px){.band{padding:28px 24px;gap:22px}}
+.band .lab{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.band .txt{flex:1;min-width:240px}
+.band .txt p{font-size:15.5px;line-height:1.6;color:var(--ink2);margin:0}
+.band .nums{display:flex;gap:34px}
+.band .nums div b{display:block;font-size:30px;font-weight:700;letter-spacing:-.035em;color:var(--accent-lift)}
+.band .nums div span{display:block;font-size:11px;color:var(--ink3);margin-top:2px;letter-spacing:.04em;
+  text-transform:uppercase;font-weight:600}
+
+.cta-row{display:flex;justify-content:center;margin-top:52px;align-items:center;gap:22px;flex-wrap:wrap}
+.bigbtn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:var(--on-accent);
+  font-size:15px;font-weight:700;letter-spacing:-.01em;padding:15px 26px;border-radius:30px;transition:.16s}
+.bigbtn:hover{filter:brightness(1.08)}
+.bigbtn svg{width:15px;height:15px}
+
+.foot{border-top:1px solid var(--hair);padding:36px 0 70px;font-size:12.5px;line-height:1.6;color:var(--ink3)}
+
+/* ============ prototype stage ============ */
+.stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,470px);gap:0;
+  align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.stage{grid-template-columns:1fr}}
+.phonecol{padding:34px 24px 46px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.panelcol{border-left:1px solid var(--hair);background:var(--panel);color:var(--panel-ink);
+  min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.panelcol{position:static;max-height:none;border-left:none;border-top:1px solid var(--hair)}}
+
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;
+  border-radius:46px;box-shadow:0 0 0 1.5px #2A3032,0 34px 70px -22px rgba(0,0,0,.8),0 0 120px -40px rgba(1,255,244,.25)}
+
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--vm-bg);color-scheme:only dark}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;
+  border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;display:flex;
+  align-items:center;justify-content:space-between;padding:14px 28px 0 34px;font:700 15px/1 'Inter',sans-serif;color:#111;transition:color .3s}
+.sbar.light{color:#fff}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;
+  border-radius:3px;background:#111;z-index:56;pointer-events:none;transition:background .3s}
+.homebar.light{background:rgba(255,255,255,.9)}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--vm-bg)}
+
+/* ============ phone screens — Voicemod's system, all prefixed scr-/vm- ============ */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--vm-bg);color:var(--vm-ink);
+  font-family:'Inter',-apple-system,sans-serif;
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.is-past{transform:translateX(-24%)}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0);z-index:30}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:56px 20px 0;position:relative;z-index:2}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 20px;scrollbar-width:none;position:relative;z-index:2}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-foot{flex:none;padding:12px 20px 30px;position:relative;z-index:2}
+
+.vm-caps{font-family:'Archivo',sans-serif;font-style:italic;font-weight:900;text-transform:uppercase;letter-spacing:-.01em}
+.vm-nav{display:flex;align-items:center;gap:14px;height:36px}
+.vm-back{width:36px;height:36px;flex:none;border-radius:50%;background:var(--vm-surf);display:grid;place-items:center;color:var(--vm-ink)}
+.vm-back svg{width:18px;height:18px}
+.vm-prog{flex:1;height:4px;border-radius:2px;background:var(--vm-surf2);overflow:hidden}
+.vm-prog i{display:block;height:100%;background:var(--vm-cyan);border-radius:2px;transition:width .4s}
+.vm-h{font-size:26px;line-height:1.16;font-weight:800;letter-spacing:-.025em;margin:22px 0 0;color:var(--vm-ink)}
+.vm-sub{font-size:14.5px;line-height:1.45;color:var(--vm-txt);margin:8px 0 0}
+
+.vm-btn{display:block;width:100%;height:52px;border-radius:var(--r-ctl);background:var(--vm-cyan);color:var(--vm-on-cyan);
+  font:700 16px/1 'Inter',sans-serif;transition:filter .15s}
+.vm-btn:hover{filter:brightness(1.05)}
+.vm-btn[disabled]{background:#164F4C;color:#7FB5B1;cursor:default}
+.vm-helper{font-size:13px;line-height:1.4;color:var(--vm-muted);text-align:center;margin:0 0 10px}
+.vm-helper b{color:var(--vm-ink)}
+
+/* welcome — their splash */
+.vm-splash{display:block;width:100%;height:auto;border-radius:var(--r-media);margin-top:4px}
+.vm-wh{font-size:30px;line-height:1.16;font-weight:800;letter-spacing:-.02em;text-align:center;margin:22px 6px 0;color:var(--vm-ink)}
+.vm-wh em{font-style:normal;color:var(--vm-cyan-t)}
+.vm-wsub{font-size:14px;color:var(--vm-txt);text-align:center;margin-top:10px}
+.vm-have{display:block;width:100%;margin-top:12px;font-size:14px;color:var(--vm-txt);text-align:center}
+.vm-have b{color:var(--vm-ink);font-weight:700}
+.vm-legal{font-size:11px;line-height:1.5;color:var(--vm-muted);text-align:center;margin-top:10px}
+.vm-legal a{color:var(--vm-cyan-t);text-decoration:none}
+
+/* use-case rows */
+.vm-rows{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.vm-row{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--vm-surf);border:2px solid transparent;
+  border-radius:var(--r-card);padding:12px 14px;transition:.16s}
+.vm-row .ic{width:40px;height:40px;flex:none;border-radius:8px;background:var(--vm-surf2);display:grid;place-items:center;color:var(--vm-ink)}
+.vm-row .ic svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.vm-row .tx{flex:1}
+.vm-row .tx b{display:block;font-size:15.5px;font-weight:700;color:var(--vm-ink)}
+.vm-row .tx span{display:block;font-size:12.5px;color:var(--vm-muted);margin-top:2px}
+.vm-radio{width:24px;height:24px;flex:none;border-radius:50%;border:2px solid #3A4244;display:grid;place-items:center;transition:.16s}
+.vm-radio svg{width:13px;height:13px;stroke:var(--vm-on-cyan);stroke-width:3.4;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.vm-row.on{border-color:var(--vm-cyan);background:rgba(1,255,244,.07)}
+.vm-row.on .ic{background:var(--vm-cyan);color:var(--vm-on-cyan)}
+.vm-row.on .vm-radio{background:var(--vm-cyan);border-color:var(--vm-cyan)}
+.vm-row.on .vm-radio svg{opacity:1}
+
+/* voice grid — their round avatars */
+.vm-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px 4px;margin-top:22px}
+.vm-v{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.vm-v .av{position:relative;width:62px;height:66px}
+.vm-v .av img{width:62px;height:66px;display:block;transition:.18s}
+.vm-v .av::after{content:'';position:absolute;left:3px;right:3px;bottom:0;height:56px;border-radius:50%;
+  box-shadow:0 0 0 0 rgba(1,255,244,0);transition:.18s;pointer-events:none}
+.vm-v.on .av::after{box-shadow:0 0 0 3px var(--vm-cyan),0 0 22px 2px rgba(1,255,244,.55)}
+.vm-v .nm{font-size:11.5px;color:var(--vm-txt);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 2px}
+.vm-v.on .nm{color:var(--vm-ink);font-weight:600}
+.vm-v .num{position:absolute;right:2px;bottom:20px;width:20px;height:20px;border-radius:50%;background:var(--vm-cyan);color:var(--vm-on-cyan);
+  font:800 11px/20px 'Inter',sans-serif;text-align:center;opacity:0;transform:scale(.6);transition:.16s;z-index:2}
+.vm-v.on .num{opacity:1;transform:none}
+
+/* loader — their lime launch screen */
+.scr--load{background:linear-gradient(160deg,#E0FD07,#A7F716 50%,#5FF31C);color:#0B0E0D}
+.vm-loadwrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
+.vm-bolt{width:132px;height:auto;display:block;margin-bottom:18px;animation:wob 1.6s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(4deg) scale(1.04)}}
+.vm-load-h{font-size:24px;color:#0B0E0D;text-align:center;margin:0 0 18px}
+.vm-lsteps{width:100%;max-width:300px;display:flex;flex-direction:column;gap:12px;margin-bottom:22px}
+.vm-ls{display:flex;align-items:center;gap:11px;font-size:14.5px;font-weight:600;color:rgba(11,14,13,.45);transition:.35s}
+.vm-ls.on{color:#0B0E0D}
+.vm-ls .d{width:22px;height:22px;flex:none;border-radius:50%;border:2px solid rgba(11,14,13,.3);display:grid;place-items:center;transition:.35s}
+.vm-ls.on .d{background:#0B0E0D;border-color:#0B0E0D}
+.vm-ls .d svg{width:12px;height:12px;stroke:var(--vm-lime1);stroke-width:3.2;fill:none;opacity:0;stroke-linecap:round;stroke-linejoin:round}
+.vm-ls.on .d svg{opacity:1}
+.vm-ls .avs{display:inline-flex;margin-left:auto}
+.vm-ls .avs i,.vm-you .avs i{display:block;width:24px;height:24px;border-radius:50%;border:2px solid #0B0E0D;margin-left:-6px;
+  background:#111 no-repeat 50% 72%/150% auto}
+.vm-quote{width:100%;max-width:300px;background:rgba(11,14,13,.9);border-radius:var(--r-card);padding:14px 16px;min-height:96px}
+.vm-quote .st{color:var(--vm-lime1);font-size:12px;letter-spacing:2px}
+.vm-quote p{font-size:14px;line-height:1.45;color:#fff;font-weight:500;margin-top:4px}
+.vm-quote b{display:block;margin-top:7px;font-size:12px;font-weight:600;color:#9AA3A1}
+
+/* home chrome — their header, switch, chips, countdown */
+.vm-hd{display:flex;align-items:center;justify-content:space-between;height:40px}
+.vm-burger{width:24px;height:24px;color:var(--vm-txt)}
+.vm-pro{height:34px;width:auto;display:block}
+.vm-seg{display:flex;justify-content:center;margin-top:12px}
+.vm-seg div{display:flex;background:var(--vm-surf);border-radius:20px;padding:4px}
+.vm-seg span{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:16px;font-size:12.5px;font-weight:600;color:var(--vm-txt)}
+.vm-seg span.on{background:var(--vm-surf2);color:var(--vm-cyan-t)}
+.vm-seg svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.vm-chips{display:flex;gap:6px;margin-top:12px;overflow:hidden}
+.vm-chip{flex:none;padding:9px 13px;border-radius:var(--r-ctl);background:var(--vm-surf2);font-size:12.5px;font-weight:600;color:var(--vm-ink)}
+.vm-chip.on{background:var(--vm-cyan);color:var(--vm-on-cyan)}
+.vm-daily{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;font-size:12.5px;font-weight:700}
+.vm-daily i{width:14px;height:14px;border-radius:50%;background:conic-gradient(#7CF7C8,#9FB8FF,#E9A3FF,#7CF7C8);display:block}
+.vm-daily span{background:linear-gradient(90deg,#7CF7C8,#9FB8FF,#E9A3FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* payoff — their soundboard */
+.vm-ph{font-size:24px;line-height:1.15;font-weight:800;letter-spacing:-.02em;text-align:center;margin-top:16px}
+.vm-psub{font-size:13.5px;color:var(--vm-txt);text-align:center;margin-top:5px}
+.vm-picks{display:flex;justify-content:center;gap:16px;margin-top:16px}
+.vm-pick{display:flex;flex-direction:column;align-items:center;gap:6px;width:88px}
+.vm-pick .av{position:relative;width:84px;height:90px}
+.vm-pick .av img{width:84px;height:90px;display:block}
+.vm-pick:first-child .av::after{content:'';position:absolute;left:4px;right:4px;bottom:0;height:76px;border-radius:50%;
+  box-shadow:0 0 0 3px var(--vm-cyan),0 0 24px 3px rgba(1,255,244,.5)}
+.vm-pick .nm{font-size:12.5px;font-weight:600;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vm-card{display:flex;gap:12px;align-items:flex-start;background:var(--vm-surf);border-radius:var(--r-card);padding:13px 14px;margin-top:12px}
+.vm-card svg{width:20px;height:20px;flex:none;stroke:var(--vm-cyan-t);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+.vm-card div{font-size:13px;line-height:1.42;color:var(--vm-txt)}
+.vm-card div b{display:block;color:var(--vm-ink);font-size:14px;margin-bottom:1px}
+
+/* paywall — their UNLOCK VM PRO */
+.scr--pay{background:var(--vm-lime);color:#000}
+.scr--pay .scr-top{padding:50px 20px 0}
+.vm-x{position:absolute;right:18px;top:52px;width:30px;height:30px;border-radius:50%;background:#000;display:grid;place-items:center;color:#fff;z-index:5}
+.vm-x svg{width:15px;height:15px}
+.vm-payh{font-size:31px;line-height:1;color:#000;text-align:center;margin:34px 0 0}
+.vm-you{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:12px}
+.vm-you .avs{display:flex}
+.vm-you .avs i{width:32px;height:32px;border-color:#000;margin-left:-8px}
+.vm-you .avs i:first-child{margin-left:0}
+.vm-you p{font-size:13px;line-height:1.3;font-weight:700;color:#000}
+.vm-you p span{display:block;font-weight:500;font-size:12px}
+.vm-proof{display:flex;align-items:center;justify-content:center;gap:7px;margin:10px auto 0;width:max-content;max-width:100%;
+  background:rgba(0,0,0,.1);border-radius:20px;padding:6px 12px;font-size:12px;font-weight:700;color:#000}
+.vm-proof .st{letter-spacing:1px}
+.vm-plans{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.vm-plan{position:relative;display:block;width:100%;text-align:left;background:rgba(0,0,0,.55);border-radius:var(--r-card);padding:11px 14px 11px;color:#fff;transition:.16s}
+.vm-plan.on{background:#000}
+.vm-plan .row{display:flex;align-items:center;gap:8px}
+.vm-plan .rd{width:16px;height:16px;flex:none;border-radius:50%;border:1.5px solid rgba(255,255,255,.85);display:grid;place-items:center}
+.vm-plan .rd svg{width:10px;height:10px;stroke:#000;stroke-width:3.4;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.vm-plan.on .rd{background:var(--vm-lime2);border-color:var(--vm-lime2)}
+.vm-plan.on .rd svg{opacity:1}
+.vm-plan .lb{font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.vm-plan .bd{margin-left:auto;background:var(--vm-badge);color:#000;border-radius:10px;padding:3px 8px;font-size:8.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+.vm-plan .pr{display:block;font-size:24px;line-height:1.1;margin-top:5px}
+.vm-plan .sb{display:block;font-size:10.5px;color:rgba(255,255,255,.82);margin-top:2px}
+.vm-ticks{display:flex;flex-direction:column;gap:6px;margin-top:14px;padding-left:8px}
+.vm-tk{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;color:#000}
+.vm-tk svg{width:14px;height:14px;stroke:#000;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.vm-vmk{margin-top:14px;background:#3EC71F;border:1.5px solid rgba(255,255,255,.35);border-radius:8px;padding:10px 12px;
+  font:italic 800 10px/1.35 'Archivo',sans-serif;text-transform:uppercase;text-align:center;color:#063B00}
+.vm-cta{display:block;width:100%;height:54px;border-radius:var(--r-ctl);background:#000;color:var(--vm-lime1);font-size:17px}
+.vm-cta:hover{filter:brightness(1.4)}
+.vm-terms{display:flex;justify-content:center;gap:8px;margin-top:9px;font-size:11.5px;color:#000}
+.scr--pay .scr-foot{padding:10px 20px 24px}
+
+/* offer — comparison, no trial */
+.scr--offer{background:var(--vm-bg)}
+.scr--offer .vm-x{background:var(--vm-surf2)}
+.vm-oe{font-size:11.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--vm-lime1);text-align:center;margin-top:58px}
+.vm-oh{font-size:34px;line-height:1;color:var(--vm-ink);text-align:center;margin-top:10px}
+.vm-osub{font-size:14px;color:var(--vm-txt);text-align:center;margin-top:10px;line-height:1.45}
+.vm-cmp{background:var(--vm-surf);border-radius:16px;padding:16px 16px 14px;margin-top:20px}
+.vm-cr+.vm-cr{margin-top:16px}
+.vm-cr .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.vm-cr .top b{font-size:13px;font-weight:700;color:var(--vm-ink);text-transform:uppercase;letter-spacing:.04em}
+.vm-cr .top span{font-size:22px;color:var(--vm-ink)}
+.vm-cr .bar{height:12px;border-radius:6px;background:var(--vm-surf2);margin-top:8px;overflow:hidden}
+.vm-cr .bar i{display:block;height:100%;border-radius:6px;background:#566062}
+.vm-cr.win .bar i{background:var(--vm-lime)}
+.vm-cr .ft{font-size:12px;color:var(--vm-muted);margin-top:6px}
+.vm-save{display:flex;justify-content:center;margin-top:16px}
+.vm-save span{background:var(--vm-badge);color:#000;border-radius:14px;padding:6px 14px;font-size:12.5px;font-weight:800}
+.vm-oticks{display:flex;flex-direction:column;gap:7px;margin-top:16px}
+.vm-oticks .vm-tk{color:var(--vm-txt)}
+.vm-oticks .vm-tk svg{stroke:var(--vm-lime2)}
+.vm-octa{display:block;width:100%;height:54px;border-radius:var(--r-ctl);background:var(--vm-lime);color:#000;font-size:17px}
+.vm-ofine{font-size:11.5px;color:var(--vm-muted);text-align:center;margin-top:8px}
+.vm-ghost{display:block;width:100%;height:36px;margin-top:2px;font-size:14px;font-weight:600;color:var(--vm-txt)}
+
+/* account — their sign-in page, after purchase */
+.scr--acct{background:var(--vm-surf)}
+.vm-wm{display:block;height:22px;width:auto;margin-top:4px}
+.vm-active{display:inline-flex;align-items:center;gap:6px;margin-top:22px;background:rgba(1,255,244,.1);color:var(--vm-cyan-t);border-radius:14px;padding:5px 11px;font-size:12px;font-weight:700}
+.vm-active svg{width:13px;height:13px;stroke:currentColor;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.vm-ah{font-size:25px;line-height:1.2;font-weight:800;text-align:center;margin-top:16px;letter-spacing:-.015em}
+.vm-asub{font-size:14px;color:var(--vm-txt);text-align:center;margin-top:18px}
+.vm-sso{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.vm-sso button{position:relative;height:44px;border-radius:3px;font-size:13.5px;font-weight:500;display:flex;align-items:center;justify-content:center}
+.vm-sso button svg{position:absolute;left:14px;width:18px;height:18px}
+.vm-sso .g{background:#fff;color:#5F6368}
+.vm-sso .d{background:#5865F2;color:#fff}
+.vm-sso .t{background:#9146FF;color:#fff}
+.vm-sso .a{background:#fff;color:#111}
+.vm-or{text-align:center;font-size:11px;color:var(--vm-muted);margin:12px 0}
+.vm-in{display:flex;align-items:center;width:100%;height:44px;border-radius:3px;background:var(--vm-bg);border:1px solid var(--vm-line);color:var(--vm-muted);font-size:13.5px;text-align:left;padding:0 12px}
+.vm-email{height:44px;border-radius:3px;font-size:13.5px;margin-top:9px}
+.vm-magic{font-size:11.5px;color:var(--vm-muted);text-align:center;margin-top:10px}
+
+/* home + notification ask */
+.scr--home .scr-body{padding-bottom:120px}
+.vm-hgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px 2px;margin-top:14px}
+.vm-hgrid .vm-v .av{width:60px;height:64px}
+.vm-hgrid .vm-v .av img{width:60px;height:64px}
+.vm-hgrid .vm-v:first-child .av::after{box-shadow:0 0 0 3px var(--vm-cyan),0 0 20px 2px rgba(1,255,244,.5)}
+.vm-dock{position:absolute;left:0;right:0;bottom:0;z-index:4;pointer-events:none}
+.vm-dockbar{position:absolute;left:50%;bottom:100px;transform:translateX(-50%);width:230px;height:62px;border-radius:16px;background:#22272A;
+  display:flex;align-items:center;justify-content:space-between;padding:0 10px}
+.vm-dockbar .s{width:44px;height:44px;border-radius:50%;background:#3A4043;display:grid;place-items:center}
+.vm-dockbar .s.r{border-radius:10px;background:#181C1E}
+.vm-dockbar svg{width:20px;height:20px;stroke:#C9CFCE;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vm-mic{position:absolute;left:50%;bottom:86px;transform:translateX(-50%);width:84px;height:84px;border-radius:50%;background:var(--vm-cyan);
+  box-shadow:0 0 0 8px rgba(1,255,244,.25),0 0 30px rgba(1,255,244,.5);display:grid;place-items:center}
+.vm-mic svg{width:34px;height:34px}
+.vm-tabs{position:absolute;left:0;right:0;bottom:0;height:78px;background:#191D1E;display:flex;justify-content:space-around;padding-top:12px}
+.vm-tabs span{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:#C9CFCE}
+.vm-tabs span.on{color:var(--vm-cyan-t)}
+.vm-tabs svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.vm-ask{position:absolute;inset:0;z-index:8;background:rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity .25s}
+.vm-ask.gone{opacity:0;pointer-events:none}
+.vm-pre{width:290px;background:var(--vm-surf);border-radius:14px;padding:11px 14px;display:flex;gap:10px;align-items:center;font-size:13px;line-height:1.4;color:var(--vm-txt)}
+.vm-pre b{color:var(--vm-ink)}
+.vm-pre i{width:16px;height:16px;flex:none;border-radius:50%;background:conic-gradient(#7CF7C8,#9FB8FF,#E9A3FF,#7CF7C8);display:block}
+.vm-alert{width:290px;background:rgba(44,46,48,.94);backdrop-filter:blur(20px);border-radius:26px;padding:20px 16px 14px;color:#fff;text-align:left}
+.vm-alert h4{font-size:16px;font-weight:600;line-height:1.3}
+.vm-alert p{font-size:13px;line-height:1.4;color:#D5D7D9;margin-top:6px}
+.vm-alert .bt{display:flex;gap:8px;margin-top:16px}
+.vm-alert .bt button{flex:1;height:44px;border-radius:22px;background:rgba(255,255,255,.12);font-size:15px;font-weight:600;color:#fff}
+
+/* light mode — an approximation: the app ships dark, no light frames exist */
+.phone-in.light{--vm-bg:#F2F4F4;--vm-surf:#FFFFFF;--vm-surf2:#E5EAEA;--vm-line:#D7DDDD;--vm-ink:#0B0E0D;--vm-txt:#3C4443;--vm-muted:#7A8483;
+  --vm-cyan-t:#00A39C;background:var(--vm-bg);color-scheme:only light}
+.phone-in.light .screenwrap{background:var(--vm-bg)}
+.phone-in.light .vm-row:not(.on) .vm-radio{border-color:#C5CDCD}
+.phone-in.light .vm-btn[disabled]{background:#BDEDEA;color:#5E8F8B}
+.phone-in.light .vm-wm{filter:invert(1) hue-rotate(180deg)}
+.phone-in.light .vm-in{background:#F6F8F8}
+.phone-in.light .vm-sso .g,.phone-in.light .vm-sso .a{border:1px solid #D7DDDD}
+.phone-in.light .vm-dockbar{background:#FFFFFF;box-shadow:0 6px 20px rgba(0,0,0,.12)}
+.phone-in.light .vm-dockbar .s{background:#E5EAEA}
+.phone-in.light .vm-dockbar .s.r{background:#F2F4F4}
+.phone-in.light .vm-dockbar svg{stroke:#3C4443}
+.phone-in.light .vm-tabs{background:#FFFFFF;border-top:1px solid #E1E6E6}
+.phone-in.light .vm-tabs span{color:#3C4443}
+.phone-in.light .vm-tabs span.on{color:var(--vm-cyan-t)}
+.phone-in.light .vm-cr:not(.win) .bar i{background:#AEB6B6}
+.phone-in.light .scr--offer .vm-x{color:var(--vm-ink)}
+.phone-in.light .vm-oe{color:#5A9E00}
+.phone-in.light .vm-ask{background:rgba(0,0,0,.32)}
+.phone-in.light .vm-alert{background:rgba(242,242,244,.96);color:#111}
+.phone-in.light .vm-alert p{color:#3A3C3E}
+.phone-in.light .vm-alert .bt button{background:rgba(0,0,0,.07);color:#0A84FF}
+.phone-in.light .vm-daily span{background:linear-gradient(90deg,#14A37A,#4A63D9,#B24BD6);-webkit-background-clip:text;background-clip:text}
+
+/* prototype toolbar, walkthrough, QR */
+.tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
+.seg{display:inline-flex;align-items:center;background:#111615;border:1px solid #262D2E;border-radius:20px;padding:3px;gap:2px}
+.seg button{padding:6px 11px;border-radius:16px;font:600 12px/1 'Inter',sans-serif;color:var(--ink2);transition:.14s}
+.seg button.on{background:var(--ink);color:#050807}
+.demo-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:20px;background:var(--accent);color:var(--on-accent);
+  font:700 12px/1 'Inter',sans-serif}
+.demo-cap{width:390px;max-width:calc(100vw - 24px);background:#111615;border:1px solid var(--hair2);border-radius:16px;padding:14px 14px 12px;
+  display:flex;align-items:center;gap:12px;position:relative;overflow:hidden}
+.demo-cap .bar{position:absolute;left:0;top:0;right:0;height:3px;background:#1F2627}
+.demo-cap .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.demo-cap p{flex:1;font-size:13.5px;line-height:1.45;color:var(--ink);margin:0;font-weight:500}
+.demo-cap button{font:700 12px/1 'Inter',sans-serif;color:var(--ink2);padding:7px 10px;border-radius:12px;border:1px solid #2A3132;flex:none}
+.finger{position:absolute;z-index:90;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.28);
+  border:2px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.35);pointer-events:none;opacity:0;left:50%;top:60%;
+  transition:left .32s cubic-bezier(.4,0,.2,1),top .32s cubic-bezier(.4,0,.2,1),opacity .2s,transform .15s}
+.finger.show{opacity:1}
+.finger.press{transform:scale(.78);background:rgba(255,255,255,.45)}
+.qr{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:10px 16px 10px 10px;text-align:left}
+.qr img{width:123px;height:123px;display:block;image-rendering:pixelated;border-radius:6px}
+.qr span{font-size:12.5px;line-height:1.45;color:#3C4443}
+.qr b{display:block;color:#0B0E0D;font-size:13.5px}
+@media(max-width:1080px){.qr{display:none}}
+
+#view-proto .tools{order:0} #view-proto .demo-cap{order:1} #view-proto .phone{order:2} #view-proto .chips{order:3}
+#view-proto .chiphint{order:4} #view-proto .qr{order:5}
+.cta-row .qr{order:2}
+/* on a phone: the prototype is the screen */
+@media(max-width:500px){
+  #view-proto .phonecol{padding:0 0 28px;gap:14px}
+  #view-proto .phone{width:100vw;height:calc(100svh - 58px);min-height:640px;border:0;border-radius:0;box-shadow:none;order:1}
+  #view-proto .phone-in{border-radius:0}
+  #view-proto .island,#view-proto .sbar,#view-proto .homebar{display:none}
+  #view-proto .scr-top{padding-top:16px}
+  #view-proto .scr-foot{padding-bottom:18px}
+  #view-proto .scr--pay .scr-top{padding-top:12px}
+  #view-proto .vm-x{top:14px}
+  #view-proto .vm-payh{margin-top:30px}
+  #view-proto .vm-oe{margin-top:40px}
+  #view-proto .tools{order:3;padding:0 12px}
+  #view-proto .demo-cap{position:fixed;left:12px;right:12px;bottom:12px;width:auto;max-width:none;z-index:95}
+  #view-proto .chips{order:4;padding:0 12px}
+  #view-proto .chiphint{order:5}
+}
+
+/* overview: walkthrough button */
+.herobtns{display:flex;justify-content:center;margin-top:30px}
+.ghostbtn{display:inline-flex;align-items:center;gap:10px;background:#111615;border:1px solid var(--hair2);color:var(--ink);font-size:14px;
+  font-weight:700;padding:9px 20px 9px 9px;border-radius:30px;transition:.16s}
+.ghostbtn:hover{border-color:rgba(1,255,244,.5)}
+.ghostbtn .pl{width:30px;height:30px;border-radius:50%;background:var(--accent);display:grid;place-items:center}
+.ghostbtn .pl svg{width:12px;height:12px;fill:var(--on-accent);margin-left:2px}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:470px;margin:0 auto}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #262D2E;background:#111615;
+  font:600 12px/1 'Inter',sans-serif;color:var(--ink2);transition:.14s}
+.chip:hover{color:var(--ink);border-color:#3A4445}
+.chip.offer{border-style:dashed;border-color:var(--accent);color:var(--accent-lift)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent);border-style:solid}
+.chiphint{text-align:center;font-size:11px;color:var(--ink3);margin:0;max-width:430px}
+
+/* ============ the short panel ============ */
+.pn{padding:30px 30px 60px}
+.pn-n{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.pn-n.ctx{color:var(--panel-muted)}
+.pn-t{font-size:23px;line-height:1.18;font-weight:700;letter-spacing:-.028em;margin:8px 0 0;color:var(--panel-ink)}
+.pn-hyp{font-size:15px;line-height:1.62;color:#2E3534;margin:16px 0 0}
+.pn-hyp b{font-weight:700;color:var(--panel-ink)}
+.pn-out{margin-top:22px;border-top:1px solid var(--panel-line);padding-top:18px}
+.pn-out .lab{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-out .v{font-size:31px;font-weight:700;letter-spacing:-.035em;color:var(--accent-ink);margin-top:7px;line-height:1.05}
+.pn-kept{margin-top:22px;font-size:12.5px;line-height:1.55;color:var(--panel-muted)}
+.pn-kept b{color:#2E3534;font-weight:700}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);
+  padding-top:14px;margin-top:26px}
+.pn-sep{height:1px;background:var(--panel-line);margin:26px 0}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">
+      <span class="mk"><img src="img/icon.png" alt="Voicemod"></span>
+      <b>Growth Audit</b><span>· Voicemod</span>
+    </div>
+    <div class="nav-links">
+      <button class="on" data-view="over">Overview</button>
+      <button data-view="proto">Prototype</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Growth Audit · November 2026</div>
+    <h1>Voicemod</h1>
+    <p class="lede">Five ideas to unlock more revenue from the traffic you already have.</p>
+    <div class="meta">Prepared by <b>Adapty</b> · based on your live iOS flow and your App Store listing</div>
+    <div class="herobtns"><button class="ghostbtn" data-demo><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg></span>Watch the 30-second walkthrough</button></div>
+    <div class="stats">
+      <div class="stat"><b>30,000+</b><span>apps run subscriptions<br>on Adapty</span></div>
+      <div class="stat"><b>5</b><span>ideas, each rebuilt<br>as a working screen</span></div>
+      <div class="stat"><b>0</b><span>design changes<br>to your art direction</span></div>
+    </div>
+
+    <div class="fb">
+      <div class="fb-k">Built in Adapty Flow Builder</div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Millions of dollars</b> in subscription revenue pass through Flow Builder every month.</p>
+      </div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Nearly 500 apps</b> actively build their paywalls and onboarding in it — plenty of them past $100K MRR.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">What this is</div>
+    <h2>We opened Voicemod the way a new user does, then rebuilt the parts we think are leaving money on the table.</h2>
+    <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, so we get to see what actually moves conversion and ARPU across the market rather than inside one app. We pointed that at Voicemod: installed the iOS app, went through the first screens, read your App Store listing and your website, and looked for gaps between what you already have and what you currently show people.</p>
+    <p class="body">What follows is five ideas — not fifteen. Each one is a hypothesis you can A/B test, and each one is built into a clickable prototype so you can see it rather than imagine it. <b>The prototype uses your design, not ours.</b></p>
+
+    <div class="notes">
+      <div class="note">
+        <h4>We did not redesign your app</h4>
+        <p>Every screen in the prototype is yours — your splash art, your cyan buttons, your round voice avatars with their NEW, HOT and Pro badges, your lime UNLOCK VM PRO paywall and your sign-in page. Only the order changed, plus a few things you already own but do not show at the right moment.</p>
+      </div>
+      <div class="note">
+        <h4>You may have tested some of this</h4>
+        <p>We are working from the outside, so we cannot see your experiment history. If one of these is something you have already run, tell us — we will go deeper on the rest rather than repeat it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">The five ideas</div>
+    <h2>Ranked by what we would test first.</h2>
+    <p class="body">Each one links straight to the screen in the prototype.</p>
+
+    <div class="ideas">
+      <button class="idea" data-jump="welcome">
+        <span class="no">01</span>
+        <span>
+          <h3>Let them in before you ask for a login</h3>
+          <p>Today “Login here” is the only button on the first screen. It opens a web page with Google, Discord, Twitch, Apple and email, then a Sign in with Apple sheet and three “Checking user…” loaders — before anyone has heard a single sound.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +8%</b><span>ARPU +17%</span></span>
+      </button>
+
+      <button class="idea" data-jump="voices">
+        <span class="no">02</span>
+        <span>
+          <h3>Ask what it is for, then build their soundboard</h3>
+          <p>The app asks nothing today, so everyone lands on the same grid of 200+ voices. One question and three voice picks are enough to open on their own soundboard, with the Pro voices marked before the price appears.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="paywall">
+        <span class="no">03</span>
+        <span>
+          <h3>Put their voices and your 4.7 on the paywall</h3>
+          <p>UNLOCK VM PRO slides up over home with the same three lines for everyone. The voices they just picked should be on it, and so should your 4.7 from 21K App Store ratings, which appears nowhere in the app.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +15–20%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="notify">
+        <span class="no">04</span>
+        <span>
+          <h3>Ask for notifications after the paywall</h3>
+          <p>The notification prompt fires the moment home loads, on top of the voice grid and before the paywall. Ask after it instead, with the reason you already have: new daily voices.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="offer">
+        <span class="no">05</span>
+        <span>
+          <h3>One second chance when they close</h3>
+          <p>Closing the paywall goes straight back to home. Yearly at 29,90 € works out at 2,49 € a month, half of quarterly’s 4,99 €. Show that once, with no trial: in Entertainment, people who pay up front are worth more than trial users.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>ARPU +10–15%</b><span>second chance</span></span>
+      </button>
+    </div>
+
+    <div class="band">
+      <div class="txt">
+        <div class="lab">Potential outcome</div>
+        <p>Run together, these five move the same funnel at three points — what people have to do before they hear the app, what the paywall says to them, and what happens when they say no.</p>
+      </div>
+      <div class="nums">
+        <div><b>+25%</b><span>CR to purchase</span></div>
+        <div><b>+30%</b><span>ARPU</span></div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <div class="qr"><img src="img/qr.svg?v=1" alt="QR code for the prototype"><span><b>Or open it on your phone</b>Scan to try the flow in your hand.</span></div>
+      <button class="bigbtn" data-view="proto">Open the prototype
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <div class="wrap">
+    Impact ranges are Adapty's expected effect from teardowns and A/B tests across subscription apps — not measured lift for Voicemod. Every price, rating, quote, voice and feature line here and in the prototype comes from Voicemod's own App Store listing, website and in-app screens.
+  </div>
+</div>
+</div><!-- /view-over -->
+
+<!-- ======================= PROTOTYPE ======================= -->
+<div class="view" id="view-proto">
+<div class="stage">
+  <div class="phonecol">
+    <div class="tools" id="tools">
+      <div class="seg" id="segTheme"><button data-theme="light">Light</button><button data-theme="dark" class="on">Dark</button></div>
+      <button class="demo-btn" id="demoBtn"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>30-sec walkthrough</button>
+    </div>
+    <div class="phone">
+      <div class="phone-in" id="phoneIn">
+        <div class="island"></div>
+        <div class="sbar light" id="sbar">
+          <span>9:41</span>
+          <span class="glyphs">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg>
+          </span>
+        </div>
+        <div class="homebar light" id="homebar"></div>
+        <div class="finger" id="finger"></div>
+        <div class="screenwrap">
+
+<!-- WELCOME -->
+<section class="scr" data-id="welcome">
+  <div class="scr-top" style="padding-top:52px"></div>
+  <div class="scr-body">
+    <img class="vm-splash" src="img/splash.png" alt="Voicemod logo surrounded by meme sound tiles: BONK!, doge, trumpet, explosion, Minecraft">
+    <h2 class="vm-wh">All <em>meme sounds</em> at your fingertips</h2>
+    <p class="vm-wsub">Try out the world's best soundboard app!</p>
+  </div>
+  <div class="scr-foot">
+    <button class="vm-btn" data-go="use">Get started</button>
+    <button class="vm-have" data-go="account">Already have an account? <b>Log in</b></button>
+    <p class="vm-legal">By proceeding you are accepting our <a>terms of service</a> and <a>Privacy Policy</a>.</p>
+  </div>
+</section>
+
+<!-- USE CASE -->
+<section class="scr" data-id="use">
+  <div class="scr-top">
+    <div class="vm-nav">
+      <button class="vm-back" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="vm-prog"><i style="width:50%"></i></div>
+    </div>
+    <h2 class="vm-h">What will you use Voicemod for?</h2>
+    <p class="vm-sub">We’ll set up your first soundboard around it.</p>
+  </div>
+  <div class="scr-body"><div class="vm-rows" id="useList"></div></div>
+  <div class="scr-foot"><button class="vm-btn" data-go="voices">Continue</button></div>
+</section>
+
+<!-- VOICES -->
+<section class="scr" data-id="voices">
+  <div class="scr-top">
+    <div class="vm-nav">
+      <button class="vm-back" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="vm-prog"><i style="width:100%"></i></div>
+    </div>
+    <h2 class="vm-h">Pick 3 voices to start with</h2>
+    <p class="vm-sub">From 200+ Voicemod voices. You can swap them any time.</p>
+  </div>
+  <div class="scr-body"><div class="vm-grid" id="voiceGrid"></div></div>
+  <div class="scr-foot">
+    <p class="vm-helper" id="voiceCount"></p>
+    <button class="vm-btn" id="voiceBtn" data-go="loader">Build my soundboard</button>
+  </div>
+</section>
+
+<!-- LOADER -->
+<section class="scr scr--load" data-id="loader" data-lime="1">
+  <div class="scr-top" style="padding-top:0"></div>
+  <div class="scr-body">
+    <div class="vm-loadwrap">
+      <img class="vm-bolt" src="img/bolt.png" alt="">
+      <h2 class="vm-load-h vm-caps">Building your soundboard</h2>
+      <div class="vm-lsteps" id="loadSteps">
+        <div class="vm-ls"><span class="d"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t">—</span><span class="avs" id="loadAvs"></span></div>
+        <div class="vm-ls"><span class="d"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t">—</span></div>
+        <div class="vm-ls"><span class="d"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="t">Adding 800,000+ meme sounds</span></div>
+      </div>
+      <div class="vm-quote"><div class="st">★★★★★</div><p id="qText">—</p><b id="qWho">—</b></div>
+    </div>
+  </div>
+  <div class="scr-foot"></div>
+</section>
+
+<!-- PAYOFF -->
+<section class="scr" data-id="payoff">
+  <div class="scr-top" style="padding-top:52px">
+    <div class="vm-hd">
+      <svg class="vm-burger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <img class="vm-pro" src="img/pro.png" alt="PRO!">
+    </div>
+  </div>
+  <div class="scr-body">
+    <h2 class="vm-ph">Your soundboard is ready</h2>
+    <p class="vm-psub" id="poSub"></p>
+    <div class="vm-picks" id="poPicks"></div>
+    <div class="vm-daily"><i></i><span id="daily1">New daily voices in 23:59:38</span></div>
+    <div class="vm-card" id="poPro">
+      <svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <div><b id="poProT"></b><span id="poProD"></span></div>
+    </div>
+    <div class="vm-card" id="poRT">
+      <svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v3"/></svg>
+      <div><b id="poRTT"></b>Real-time voice changing runs through Voicemod on PC or Mac, or VMKey Pocket on mobile and console. Your phone controls it.</div>
+    </div>
+    <div style="height:8px"></div>
+  </div>
+  <div class="scr-foot"><button class="vm-btn" data-go="paywall">Continue</button></div>
+</section>
+
+<!-- PAYWALL -->
+<section class="scr scr--pay" data-id="paywall" data-lime="1">
+  <button class="vm-x" id="payClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-top">
+    <h2 class="vm-payh vm-caps">Unlock VM Pro</h2>
+  </div>
+  <div class="scr-body">
+    <div class="vm-you"><div class="avs" id="payAvs"></div><p id="payYou"></p></div>
+    <div class="vm-proof"><span class="st">★★★★★</span>4.7 · 21K ratings on the App Store</div>
+    <div class="vm-plans" id="planList">
+      <button class="vm-plan" data-v="once">
+        <span class="row"><span class="rd"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="lb">One time payment</span><span class="bd">Special offer: 60% off</span></span>
+        <span class="pr vm-caps">Only 40,00 €</span><span class="sb">Pay once, enjoy forever.</span>
+      </button>
+      <button class="vm-plan" data-v="year">
+        <span class="row"><span class="rd"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="lb">Yearly plan</span></span>
+        <span class="pr vm-caps">29,90 €</span><span class="sb">2,49 € / month (Billed every year).</span>
+      </button>
+      <button class="vm-plan" data-v="quarter">
+        <span class="row"><span class="rd"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="lb">Quarterly plan</span></span>
+        <span class="pr vm-caps">14,99 €</span><span class="sb">4,99 € / month (Billed every 3 months).</span>
+      </button>
+    </div>
+    <div class="vm-ticks">
+      <div class="vm-tk"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>200+ Voicemod Original Voices.</div>
+      <div class="vm-tk"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Fresh voices &amp; sounds, always new.</div>
+      <div class="vm-tk"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Unlock all trending Community Content.</div>
+    </div>
+    <div class="vm-vmk">* Real-time voice changing is only available on Windows, Mac, and consoles with VMKey — for now!</div>
+    <div style="height:6px"></div>
+  </div>
+  <div class="scr-foot">
+    <button class="vm-cta vm-caps" id="payCta">Upgrade to Pro</button>
+    <div class="vm-terms"><span>Terms of use</span><span>-</span><span>Privacy Policy</span></div>
+  </div>
+</section>
+
+<!-- OFFER -->
+<section class="scr scr--offer sheet" data-id="offer">
+  <button class="vm-x" id="offClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-top" style="padding-top:44px">
+    <div class="vm-oe">Before you go</div>
+    <h2 class="vm-oh vm-caps">Yearly is half<br>the price</h2>
+    <p class="vm-osub" id="offSub"></p>
+  </div>
+  <div class="scr-body">
+    <div class="vm-cmp">
+      <div class="vm-cr">
+        <div class="top"><b>Quarterly</b><span class="vm-caps">4,99 € / mo</span></div>
+        <div class="bar"><i style="width:100%"></i></div>
+        <div class="ft">14,99 € every 3 months · 59,96 € a year</div>
+      </div>
+      <div class="vm-cr win">
+        <div class="top"><b>Yearly</b><span class="vm-caps">2,49 € / mo</span></div>
+        <div class="bar"><i style="width:50%"></i></div>
+        <div class="ft">29,90 € once a year</div>
+      </div>
+    </div>
+    <div class="vm-save"><span>You keep 30,06 € a year</span></div>
+    <div class="vm-oticks">
+      <div class="vm-tk"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>200+ Voicemod Original Voices.</div>
+      <div class="vm-tk"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Fresh voices &amp; sounds, always new.</div>
+      <div class="vm-tk"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Unlock all trending Community Content.</div>
+    </div>
+  </div>
+  <div class="scr-foot">
+    <button class="vm-octa vm-caps" id="offerCta">Get yearly · 29,90 €</button>
+    <p class="vm-ofine">Billed once a year. Cancel any time in Settings.</p>
+    <button class="vm-ghost" id="offNo">No thanks</button>
+  </div>
+</section>
+
+<!-- ACCOUNT -->
+<section class="scr scr--acct" data-id="account">
+  <div class="scr-top" style="padding-top:58px">
+    <img class="vm-wm" src="img/wordmark.png" alt="Voicemod">
+  </div>
+  <div class="scr-body" style="text-align:center">
+    <span class="vm-active" id="acctActive"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>VM Pro is active on this iPhone</span>
+    <h2 class="vm-ah">Ready to explore your sound?</h2>
+    <p class="vm-asub">Create your free Voicemod account:</p>
+    <div class="vm-sso">
+      <button class="g" data-go="notify"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.3c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2.1-1.9 3.3-4.7 3.3-8Z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.2-2.7l-3.5-2.7c-1 .7-2.2 1-3.7 1-2.9 0-5.3-1.9-6.2-4.5H2.2v2.8A11 11 0 0 0 12 23Z"/><path fill="#FBBC05" d="M5.8 14.1a6.6 6.6 0 0 1 0-4.2V7.1H2.2a11 11 0 0 0 0 9.8l3.6-2.8Z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3 .6 4.2 1.6l3.1-3.1A11 11 0 0 0 2.2 7.1l3.6 2.8C6.7 7.3 9.1 5.4 12 5.4Z"/></svg>Enter with Google</button>
+      <button class="d" data-go="notify"><svg viewBox="0 0 24 24" fill="#fff"><path d="M19.5 5.3A17 17 0 0 0 15.3 4l-.5 1.1a15.6 15.6 0 0 0-5.6 0L8.7 4a17 17 0 0 0-4.2 1.3C1.8 9.3 1.1 13.2 1.4 17a17 17 0 0 0 5.2 2.6l1.1-1.8c-.6-.2-1.2-.5-1.7-.9l.4-.3a12 12 0 0 0 11.2 0l.4.3c-.5.4-1.1.7-1.7.9l1.1 1.8a17 17 0 0 0 5.2-2.6c.4-4.4-.7-8.3-3.1-11.7ZM8.7 14.7c-1 0-1.9-1-1.9-2.1s.8-2.1 1.9-2.1 1.9 1 1.9 2.1-.8 2.1-1.9 2.1Zm6.6 0c-1 0-1.9-1-1.9-2.1s.8-2.1 1.9-2.1 1.9 1 1.9 2.1-.8 2.1-1.9 2.1Z"/></svg>Enter with Discord</button>
+      <button class="t" data-go="notify"><svg viewBox="0 0 24 24" fill="#fff"><path d="M4.3 2 3 5.4v13.4h4.6V21h2.5l2.4-2.3h3.7L21 14V2H4.3Zm15 11.2-2.8 2.8h-4.6L9.5 18.4V16H5.6V3.7h13.7v9.5ZM16.4 7v5h-1.7V7h1.7Zm-4.6 0v5h-1.7V7h1.7Z"/></svg>Enter with Twitch</button>
+      <button class="a" data-go="notify"><svg viewBox="0 0 24 24" fill="#111"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9a4.8 4.8 0 0 0-3.8-2c-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9a5 5 0 0 0-4.2 2.6c-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.5 1.3 0 1.7-.8 3.3-.8 1.5 0 1.9.8 3.3.8 1.4 0 2.2-1.2 3.1-2.5a10 10 0 0 0 1.4-2.9 4.4 4.4 0 0 1-2.4-4ZM13.9 5a4.4 4.4 0 0 0 1-3.2 4.6 4.6 0 0 0-3 1.5 4.2 4.2 0 0 0-1 3.1c1.1.1 2.3-.6 3-1.4Z"/></svg>Enter with Apple</button>
+    </div>
+    <div class="vm-or">OR</div>
+    <div class="vm-in">Enter your email</div>
+    <button class="vm-btn vm-email" data-go="notify">Continue with email</button>
+    <p class="vm-magic">We’ll email you a magic code for a password-free sign in.</p>
+    <div style="height:8px"></div>
+  </div>
+  <div class="scr-foot" style="padding-top:0"></div>
+</section>
+
+<!-- HOME + NOTIFICATIONS -->
+<section class="scr scr--home" data-id="notify">
+  <div class="scr-top" style="padding-top:52px">
+    <div class="vm-hd">
+      <svg class="vm-burger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <img class="vm-pro" src="img/pro.png" alt="PRO!">
+    </div>
+    <div class="vm-seg"><div>
+      <span class="on"><svg viewBox="0 0 24 24"><path d="M2 12h3l2-5 3 10 3-12 3 9 2-2h4"/></svg>Voicemod</span>
+      <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Community</span>
+    </div></div>
+    <div class="vm-chips"><span class="vm-chip on">All</span><span class="vm-chip">Roleplay</span><span class="vm-chip">Memes</span><span class="vm-chip">Girl</span><span class="vm-chip">Human</span></div>
+    <div class="vm-daily"><i></i><span id="daily2">New daily voices in 23:59:38</span></div>
+  </div>
+  <div class="scr-body"><div class="vm-hgrid" id="homeGrid"></div></div>
+  <div class="vm-dock">
+    <div class="vm-dockbar"><span class="s"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="13" rx="3"/><path d="M7 4h10M10 11v5l4-2.5z"/></svg></span><span class="s r"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span></div>
+    <div class="vm-mic"><svg viewBox="0 0 24 24" fill="#0E1B2E"><rect x="8" y="2" width="8" height="13" rx="4"/><path d="M5 11a7 7 0 0 0 14 0" fill="none" stroke="#0E1B2E" stroke-width="2"/><rect x="11" y="17" width="2" height="5"/></svg></div>
+    <div class="vm-tabs">
+      <span class="on"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></svg>Voices</span>
+      <span><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>
+      <span><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><path d="M17 14v6M14 17h6"/></svg></span>
+      <span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></span>
+    </div>
+  </div>
+  <div class="vm-ask" id="askLayer">
+    <div class="vm-pre"><i></i><span><b>New voices drop every day.</b> Want a heads-up when they land?</span></div>
+    <div class="vm-alert">
+      <h4>“Voicemod” Would Like to Send You Notifications</h4>
+      <p>Notifications may include alerts, sounds, and icon badges. These can be configured in Settings.</p>
+      <div class="bt"><button id="askNo">Don’t Allow</button><button id="askYes">Allow</button></div>
+    </div>
+  </div>
+</section>
+
+        </div>
+      </div>
+    </div>
+    <div class="demo-cap hidden" id="demoCap"><div class="bar"><i id="demoProg"></i></div><p id="demoTxt"></p><button id="demoStop">Stop</button></div>
+    <div class="chips" id="chips"></div>
+    <p class="chiphint">Jump to any screen — answers already filled in.</p>
+    <div class="qr"><img src="img/qr.svg?v=1" alt="QR code for this prototype"><span><b>Open it on your phone</b>Scan to try the flow in your hand.</span></div>
+  </div>
+  <div class="panelcol"><div class="pn" id="panel"></div></div>
+</div>
+</div><!-- /view-proto -->
+
+<script>
+/* ================= content — every voice, quote and figure is Voicemod's own ================= */
+var USES = [
+  {k:'discord', t:'Discord &amp; game voice chat', s:'Sound like someone else with your squad', board:'Discord soundboard', you:'For Discord and game chat', rt:true,
+   ic:'<path d="M7 9h10a4 4 0 0 1 4 4v2a3 3 0 0 1-5.4 1.8L14 15h-4l-1.6 1.8A3 3 0 0 1 3 15v-2a4 4 0 0 1 4-4Z"/><path d="M8 12v2M7 13h2M15.5 12.5h.01M17.5 14h.01"/>'},
+  {k:'prank', t:'Pranking my friends', s:'Voice messages, calls, the Bluetooth speaker trick', board:'prank soundboard', you:'For pranking your friends', rt:false,
+   ic:'<circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2.5 4 2.5 4-2.5 4-2.5M9 9.5h.01M15 9.5h.01"/>'},
+  {k:'stream', t:'Streaming &amp; videos', s:'Twitch, TikTok, YouTube', board:'stream soundboard', you:'For your streams and videos', rt:true,
+   ic:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4M10 9l5 2-5 2z"/>'},
+  {k:'chat', t:'Memes in group chats', s:'Drop sound memes and voice messages', board:'group-chat soundboard', you:'For your group chats', rt:false,
+   ic:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1.1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/>'}
+];
+var USEK = {}; USES.forEach(function(u){ USEK[u.k]=u; });
+/* the avatars are crops of their own home grid; names cut off the way their grid cuts them */
+var VOICES = [
+  {k:'magic',  n:'Magic Chords'}, {k:'banana', n:'Banana'}, {k:'fuzzy', n:'Fuzzy…'}, {k:'rune', n:'Rune'}, {k:'florie', n:'Florie'},
+  {k:'airi',   n:'Airi'}, {k:'mei', n:'Mei'}, {k:'scary', n:'Scary…'}, {k:'diamond', n:'Voice…', pro:true}, {k:'yuto', n:'Yuto', pro:true}
+];
+var VK = {}; VOICES.forEach(function(v){ VK[v.k]=v; v.img='img/v-'+v.k+'.png'; });
+/* 5-star reviews, verbatim, from the US App Store listing */
+var QUOTES = [
+  ['Peak for trolling ppl online','little_gh0st'],
+  ['I love this app so much i use it to troll my frends','Milosz5632'],
+  ['Some of da best soundboards known to man 🗿🤚🏽','Taken another again 5 star']
+];
+
+/* ================= state ================= */
+var S0 = {theme:'dark'};
+function defaults(){ return { theme:S0.theme, use:'discord', voices:['banana','rune','yuto'], plan:'once', asked:false }; }
+var S = defaults();
+var ck='<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>';
+function picks(){ return S.voices.map(function(k){ return VK[k]; }); }
+function proCount(){ return picks().filter(function(v){ return v.pro; }).length; }
+function avs(list){ return list.map(function(v){ return '<i style="background-image:url('+v.img+')"></i>'; }).join(''); }
+
+/* ================= builders ================= */
+function buildUse(){ var g=document.getElementById('useList'); g.innerHTML='';
+  USES.forEach(function(u){ var b=document.createElement('button'); b.className='vm-row'; b.dataset.v=u.k;
+    b.innerHTML='<span class="ic"><svg viewBox="0 0 24 24">'+u.ic+'</svg></span><span class="tx"><b>'+u.t+'</b><span>'+u.s+'</span></span><span class="vm-radio">'+ck+'</span>';
+    b.addEventListener('click',function(){ S.use=u.k; syncScreen(); }); g.appendChild(b); }); }
+function voiceTile(v){ return '<span class="av"><img src="'+v.img+'" alt="'+v.n+'"></span><span class="nm">'+v.n+'</span>'; }
+function buildVoices(){ var g=document.getElementById('voiceGrid'); g.innerHTML='';
+  VOICES.forEach(function(v){ var b=document.createElement('button'); b.className='vm-v'; b.dataset.v=v.k;
+    b.innerHTML=voiceTile(v)+'<span class="num"></span>';
+    b.addEventListener('click',function(){ var i=S.voices.indexOf(v.k);
+      if(i>-1) S.voices.splice(i,1); else { if(S.voices.length>=3) S.voices.shift(); S.voices.push(v.k); }
+      syncScreen(); });
+    g.appendChild(b); }); }
+
+/* ================= everything downstream reads S ================= */
+function syncScreen(){
+  var u=USEK[S.use], p=picks(), n=p.length, pc=proCount();
+  document.querySelectorAll('#useList .vm-row').forEach(function(b){ b.classList.toggle('on', b.dataset.v===S.use); });
+  document.querySelectorAll('#voiceGrid .vm-v').forEach(function(b){ var i=S.voices.indexOf(b.dataset.v);
+    b.classList.toggle('on', i>-1); b.querySelector('.num').textContent = i>-1 ? i+1 : ''; });
+  document.getElementById('voiceCount').innerHTML = n ? '<b>'+n+' of 3</b> picked' : 'Tap a voice to pick it';
+  document.getElementById('voiceBtn').disabled = !n;
+
+  /* loader */
+  var st=document.querySelectorAll('#loadSteps .vm-ls .t');
+  st[0].textContent = 'Loading your '+(n===1?'voice':n+' voices');
+  document.getElementById('loadAvs').innerHTML = avs(p);
+  st[1].textContent = 'Setting up your '+u.board;
+
+  /* payoff */
+  document.getElementById('poSub').textContent = cap(u.board)+' · '+n+' voice'+(n===1?'':'s');
+  document.getElementById('poPicks').innerHTML = p.map(function(v){ return '<div class="vm-pick">'+voiceTile(v)+'</div>'; }).join('');
+  document.getElementById('poProT').textContent = pc ? (pc===n ? (n===1?'Your pick is a Pro voice':'All your picks are Pro voices') : pc+' of your '+n+' picks '+(pc===1?'is a Pro voice':'are Pro voices')) : 'Your picks are ready to try';
+  document.getElementById('poProD').textContent = pc ? ' Pro unlocks it, plus 200+ Voicemod Original Voices.' : ' Pro adds 200+ Voicemod Original Voices on top.';
+  document.getElementById('poRT').classList.toggle('hidden', !u.rt);
+  document.getElementById('poRTT').textContent = S.use==='discord' ? 'On Discord and in games' : 'Live on stream';
+
+  /* paywall: their picks and their use, above your plans */
+  document.getElementById('payAvs').innerHTML = avs(p);
+  document.getElementById('payYou').innerHTML = 'Your '+u.board+'<span>'+(pc ? (pc===1?'1 Pro voice':pc+' Pro voices')+' inside, unlocked with Pro' : u.you+', plus 200+ voices')+'</span>';
+  document.querySelectorAll('#planList .vm-plan').forEach(function(b){ b.classList.toggle('on', b.dataset.v===S.plan); });
+  document.getElementById('offSub').textContent = 'Same Pro, same '+u.board+'. Pay by the year instead of every 3 months.';
+
+  /* home: their picks first */
+  var rest=VOICES.filter(function(v){ return S.voices.indexOf(v.k)<0; });
+  document.getElementById('homeGrid').innerHTML = p.concat(rest).map(function(v){ return '<div class="vm-v">'+voiceTile(v)+'</div>'; }).join('');
+  document.getElementById('askLayer').classList.toggle('gone', S.asked);
+}
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+/* ================= router ================= */
+var ORDER=['welcome','use','voices','loader','payoff','paywall','offer','account','notify'];
+var LABEL={welcome:'Welcome',use:'Use case',voices:'Voices',loader:'Loader',payoff:'Soundboard',paywall:'Paywall',offer:'Offer on close',account:'Account',notify:'Notifications'};
+var scr={}, hist=[], cur='welcome', loadTimers=[], dailyTimer=null;
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id]=s; });
+
+function chrome(){ var lime=!!scr[cur].dataset.lime, white=!lime && S.theme==='dark';
+  document.getElementById('sbar').classList.toggle('light',white); document.getElementById('homebar').classList.toggle('light',white); }
+function enter(id){ chrome(); paintChips(); paintPanel(); clearLoad(); if(id==='loader') runLoader(); }
+function go(id,opts){
+  opts=opts||{}; if(id===cur) return;
+  var from=scr[cur], to=scr[id];
+  if(!opts.back) hist.push(cur);
+  if(from){ from.classList.remove('is-active');
+    if(!to.classList.contains('sheet') && !from.classList.contains('sheet')) from.classList.add('is-past'); }
+  Object.keys(scr).forEach(function(k){ if(k!==id&&k!==cur) scr[k].classList.remove('is-active'); });
+  if(to.classList.contains('sheet')) from.classList.add('is-active');
+  to.classList.remove('is-past'); to.classList.add('is-active');
+  cur=id; enter(id);
+}
+function back(){
+  if(!hist.length) return;
+  var prev=hist.pop();
+  scr[cur].classList.remove('is-active');
+  scr[prev].classList.remove('is-past'); scr[prev].classList.add('is-active');
+  cur=prev; enter(prev);
+}
+function jump(id){
+  var i=ORDER.indexOf(id);
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active','is-past'); });
+  hist=ORDER.slice(0,i<0?0:i);
+  if(id==='offer') scr.paywall.classList.add('is-active');
+  if(id==='notify') S.asked=false;
+  scr[id].classList.add('is-active'); cur=id;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  syncScreen(); enter(id);
+}
+function paintChips(){
+  var c=document.getElementById('chips');
+  if(!c.children.length){
+    ORDER.forEach(function(id){
+      var b=document.createElement('button'); b.className='chip'+(id==='offer'?' offer':''); b.textContent=LABEL[id];
+      b.dataset.id=id; b.onclick=function(){ stopDemo(); jump(id); }; c.appendChild(b);
+    });
+  }
+  c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on', b.dataset.id===cur); });
+}
+
+function clearLoad(){ loadTimers.forEach(clearTimeout); loadTimers=[]; }
+function runLoader(){
+  var k=demo.on?0.48:1;
+  var steps=[].slice.call(document.querySelectorAll('#loadSteps .vm-ls'));
+  steps.forEach(function(s){ s.classList.remove('on'); });
+  function showQuote(i){ document.getElementById('qText').textContent='“'+QUOTES[i][0]+'”'; document.getElementById('qWho').textContent='— '+QUOTES[i][1]+', App Store'; }
+  showQuote(0);
+  steps.forEach(function(s,i){ loadTimers.push(setTimeout(function(){ s.classList.add('on'); },(700+i*1100)*k)); });
+  [1,2].forEach(function(i){ loadTimers.push(setTimeout(function(){ showQuote(i); },(1700+(i-1)*1700)*k)); });
+  loadTimers.push(setTimeout(function(){ if(cur==='loader') go('payoff'); },5000*k));
+}
+/* their daily-voices countdown, running to the next midnight */
+function tickDaily(){ var d=new Date(), e=new Date(d); e.setHours(24,0,0,0); var s=Math.floor((e-d)/1000);
+  var t='New daily voices in '+[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(function(x){ return ('0'+x).slice(-2); }).join(':');
+  document.getElementById('daily1').textContent=t; document.getElementById('daily2').textContent=t; }
+tickDaily(); dailyTimer=setInterval(tickDaily,1000);
+
+/* ================= wiring ================= */
+document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ if(!b.disabled) go(b.dataset.go); }); });
+document.querySelectorAll('[data-back]').forEach(function(b){ b.addEventListener('click',back); });
+document.querySelectorAll('#planList .vm-plan').forEach(function(b){ b.addEventListener('click',function(){ S.plan=b.dataset.v; syncScreen(); }); });
+document.getElementById('payClose').addEventListener('click',function(){ go('offer'); });
+document.getElementById('payCta').addEventListener('click',function(){ go('account'); });
+document.getElementById('offerCta').addEventListener('click',function(){ S.plan='year'; syncScreen(); go('account'); });
+document.getElementById('offClose').addEventListener('click',function(){ S.asked=false; syncScreen(); go('notify'); });
+document.getElementById('offNo').addEventListener('click',function(){ S.asked=false; syncScreen(); go('notify'); });
+document.getElementById('askNo').addEventListener('click',function(){ S.asked=true; syncScreen(); });
+document.getElementById('askYes').addEventListener('click',function(){ S.asked=true; syncScreen(); });
+
+function setSeg(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(function(b){ b.classList.toggle('on', b.dataset[attr]===val); }); }
+function setTheme(th){ S.theme=th; S0.theme=th; document.getElementById('phoneIn').classList.toggle('light',th==='light'); setSeg('segTheme','theme',th); chrome(); }
+document.querySelectorAll('#segTheme button').forEach(function(b){ b.addEventListener('click',function(){ setTheme(b.dataset.theme); }); });
+
+/* ================= the 30-second walkthrough ================= */
+var demo={tok:0,on:false,t0:0,iv:null}, finger=document.getElementById('finger'), phoneIn=document.getElementById('phoneIn');
+function W(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function capt(txt){ document.getElementById('demoTxt').textContent=txt; }
+async function tap(sel,tok){
+  if(demo.tok!==tok) throw 0;
+  var el=document.querySelector(sel); if(!el) return;
+  var r=el.getBoundingClientRect(), p=phoneIn.getBoundingClientRect(), z=p.width/phoneIn.offsetWidth||1;
+  finger.style.left=((r.left-p.left+r.width/2)/z)+'px'; finger.style.top=((r.top-p.top+r.height/2)/z)+'px';
+  finger.classList.add('show'); await W(380); if(demo.tok!==tok) throw 0;
+  finger.classList.add('press'); await W(120); finger.classList.remove('press'); el.click(); await W(160);
+  if(demo.tok!==tok) throw 0;
+}
+async function pause(ms,tok){ await W(ms); if(demo.tok!==tok) throw 0; }
+function startDemo(){
+  stopDemo(); var tok=++demo.tok; demo.on=true; demo.t0=Date.now();
+  var keep=S.theme; S=defaults(); S.theme=keep;
+  jump('welcome');
+  document.getElementById('demoCap').classList.remove('hidden');
+  demo.iv=setInterval(function(){ document.getElementById('demoProg').style.width=Math.min(100,(Date.now()-demo.t0)/280)+'%'; },200);
+  (async function(){
+    try{
+      capt('A new install opens on your splash with Get started — no login yet.'); await pause(1700,tok);
+      await tap('[data-id=welcome] .vm-btn',tok);
+      capt('One question: what they want Voicemod for.'); await pause(700,tok);
+      await tap('#useList [data-v=prank]',tok); await pause(450,tok); await tap('[data-id=use] .vm-btn',tok);
+      capt('Three voices from your own grid. Pro ones are marked.'); await pause(700,tok);
+      await tap('#voiceGrid [data-v=mei]',tok); await pause(450,tok); await tap('#voiceBtn',tok);
+      capt('Their picks, read back while it loads.'); await pause(2700,tok);
+      capt('Their soundboard, with the Pro voice called out before the price.'); await pause(2200,tok);
+      await tap('[data-id=payoff] .vm-btn',tok);
+      capt('UNLOCK VM PRO now opens on their voices and your 4.7 rating.'); await pause(1900,tok);
+      await tap('#planList [data-v=year]',tok); await pause(650,tok); await tap('#planList [data-v=once]',tok); await pause(500,tok);
+      capt('They close it. One second chance: yearly at half the quarterly price.'); await tap('#payClose',tok); await pause(2400,tok);
+      capt('Buy, and only then the account — then notifications, on home.');
+      finger.classList.remove('show'); await pause(2600,tok); stopDemo();
+    }catch(e){}
+  })();
+}
+function stopDemo(){ if(!demo.on) return; demo.tok++; demo.on=false; clearInterval(demo.iv); finger.classList.remove('show','press');
+  document.getElementById('demoCap').classList.add('hidden'); }
+document.getElementById('demoBtn').addEventListener('click',startDemo);
+document.getElementById('demoStop').addEventListener('click',stopDemo);
+phoneIn.addEventListener('pointerdown',function(e){ if(e.isTrusted && demo.on) stopDemo(); });
+</script>
+<script>
+/* ---- the short panel: hypothesis + potential outcome, nothing else ---- */
+var PANEL = {
+welcome:{n:1,t:'Let them in before you ask for a login',
+ hyp:'Try Get started on your splash instead of Login here, <b>because today the first tap opens a web page with five sign-in options, a Sign in with Apple sheet and three “Checking user…” loaders before anyone hears a sound</b>. Log in stays one tap away for people who already have an account.',
+ kept:'Your splash untouched — the BONK!, doge, trumpet and Minecraft tiles around your logo, “All meme sounds at your fingertips” with meme sounds in cyan, your cyan button and the terms line.',
+ out:'CR +8% · ARPU +17%'},
+use:{n:2,t:'Ask what it is for, then build their soundboard',
+ hyp:'Try one question about what they will use Voicemod for, <b>because the answer names their soundboard, the loader line and the paywall line, and decides whether the PC, Mac and VMKey note is shown to them at all</b>. The four answers come from your own App Store description.',
+ kept:'Your dark surfaces, Inter type and cyan selection, the same cyan as your Login and All buttons.',
+ out:'CR +10–15%'},
+voices:{n:2,t:'Ask what it is for, then build their soundboard',
+ hyp:'Try letting them pick three voices from your own grid, <b>because the picks fill their soundboard and show which ones need Pro before the price does</b>. A 5-star review this week asks “Why is almost all of the voices pro?” — this answers it in the flow.',
+ kept:'Your round avatars with their NEW, HOT and Pro badges, the cyan glow your grid puts on the selected voice, and names cut off the way your grid cuts them.',
+ out:'CR +10–15%'},
+loader:{n:2,t:'Ask what it is for, then build their soundboard',
+ hyp:'Try naming their picks while it loads, <b>because a loader only pays off when something personal comes after it</b>. The three quotes are 5-star reviews from your US App Store listing, verbatim.',
+ kept:'Your lime launch-screen gradient and the bolt tile, untouched. 800,000+ meme sounds is the figure on your App Store listing.',
+ out:'CR +10–15%'},
+payoff:{n:2,t:'Ask what it is for, then build their soundboard',
+ hyp:'Try showing their soundboard before the price, <b>because it is the home screen they land on anyway — with their three voices first and the Pro one marked</b>. Pick a different voice two screens back and this screen changes.',
+ kept:'Your header with the PRO! badge, your avatars and cyan glow, and your live “New daily voices” countdown. The real-time note only appears for Discord and streaming, and repeats what your listing says about VMKey Pocket.',
+ out:'CR +10–15%'},
+paywall:{n:3,t:'Put their voices and your 4.7 on the paywall',
+ hyp:'Try showing the voices they picked and your 4.7 from 21K ratings above the plans, <b>because today UNLOCK VM PRO says the same three lines to everyone, and your rating appears nowhere in the app</b>.',
+ kept:'UNLOCK VM PRO, the lime gradient, all three plans at your prices with the 60% badge, the black UPGRADE TO PRO button, your three ticks and the VMKey note. The button now sits in a footer that never scrolls away.',
+ out:'CR +15–20%'},
+offer:{n:5,t:'One second chance when they close',
+ hyp:'Try one comparison when they close the paywall, <b>because today the X goes straight back to home</b>. Yearly at 29,90 € is 2,49 € a month against 4,99 € on quarterly, so it is half the price on your own plans. No trial, because in Entertainment people who pay up front are worth more than trial users.',
+ kept:'Your prices exactly as published, your italic caps, your lime gradient and ticks. No countdown and no discount we cannot back.',
+ out:'ARPU +10–15%'},
+account:{n:1,t:'Let them in before you ask for a login',
+ hyp:'Try asking for the account after the purchase, <b>because by then there is a reason to make one: keeping Pro and their soundboard across phone, PC, Mac and VMKey</b>. The purchase itself goes through Apple and does not need one.',
+ kept:'Your sign-in page as it ships — Google, Discord, Twitch, Apple and email, the magic code and “Ready to explore your sound?”. It is now in the app rather than a browser window.',
+ out:'CR +8% · ARPU +17%'},
+notify:{n:4,t:'Ask for notifications after the paywall',
+ hyp:'Try asking for notifications here, on home after the paywall, <b>because today the prompt fires the moment home loads, before the paywall has had its turn</b>. Your daily-voices drop is the reason to say yes, so it goes in one line above the system dialog.',
+ kept:'Your home as it ships — the PRO! badge, the Voicemod / Community switch, the category chips, the countdown, the avatar grid and the big cyan mic. Their three picks now come first. The system dialog is unchanged.',
+ out:'CR +10–15%'}
+};
+
+function outBlock(lab,val){ return '<div class="pn-out"><div class="lab">'+lab+'</div><div class="v">'+val+'</div></div>'; }
+function paintPanel(){
+  var d=PANEL[cur]; if(!d) return;
+  var h='';
+  if(d.ctx){
+    h += '<div class="pn-n ctx">Context · no change proposed</div><h3 class="pn-t">'+d.t+'</h3><div class="pn-kept">'+d.kept+'</div>';
+  } else {
+    h += '<div class="pn-n">Idea '+d.n+' of 5</div><h3 class="pn-t">'+d.t+'</h3><p class="pn-hyp">'+d.hyp+'</p>'
+       + outBlock('Potential outcome · based on Adapty data', d.out)
+       + '<div class="pn-kept"><b>Your design, unchanged.</b> '+d.kept+'</div>';
+  }
+  if(S.theme==='light') h += '<div class="pn-kept"><b>Light mode.</b> Voicemod ships dark only; the light version is our approximation, so you can see the flow holds up in both.</div>';
+  h += '<div class="pn-foot">Ranges are Adapty’s expected effect from tests across 30,000+ subscription apps — not measured lift for Voicemod. '
+     + 'Prices, ratings, quotes and voices come from your own published material.</div>';
+  document.getElementById('panel').innerHTML = h;
+}
+document.querySelectorAll('#segTheme button').forEach(function(b){ b.addEventListener('click',paintPanel); });
+
+/* ---- views, jumps from the overview ---- */
+function showView(v){
+  if(v!=='proto') stopDemo();
+  document.querySelectorAll('.view').forEach(function(x){ x.classList.remove('on'); });
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-links button[data-view]').forEach(function(b){ b.classList.toggle('on', b.dataset.view===v); });
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+document.querySelectorAll('.idea[data-jump]').forEach(function(b){
+  b.addEventListener('click',function(){ showView('proto'); jump(b.dataset.jump); });
+});
+document.querySelectorAll('[data-demo]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); startDemo(); }); });
+
+buildUse(); buildVoices();
+scr.welcome.classList.add('is-active');
+syncScreen(); chrome(); paintChips(); paintPanel();
+if(/[?&]open=proto/.test(location.search)) showView('proto');
+</script>
+</body>
+</html>
